@@ -1,6 +1,8 @@
 <html>
 
 <head>
+	
+	<link rel="stylesheet" href="style.css">
     <style>
         #root {
             width: 100vw;
@@ -11,20 +13,112 @@
 
 
 <body>
-	<div>
-		<h1> We can put extra features here!!!!</h1>
-		<div>
-			<audio id="whistle" src="whistle call.mp3"></audio>
-			<button onclick="playWhistle()"> Whistle</button>
+	<audio id="whistle" src="whistle1.mp3"></audio>
+				<button onclick="playWhistle()"> Play Whistle Sound</button>
+				
+				<script>
+					function playWhistle(){
+						const audio = document.getElementById("whistle");
+						audio.currentTime=0;
+						audio.play();
+					}
+				</script>
 			
+			<audio id="birdSound" src="bird.mp3"></audio>
+						<button onclick="playBirdSound()">Play a Bird Sound</button>
+						
+						<script>
+							function playBirdSound(){
+								const audio = document.getElementById("birdSound");
+								audio.currentTime=0;
+								audio.play();
+							}
+						</script>
+		<button class=' button-sound' id="recordASound"> Record your own sound </button>
+			<div id="controls" style="display: none;">
+				<button class='Record' id="Record">Record</button>
+				<button class='Pause' id="Pause">Pause</button>
+				<button class='Play' id="Play">Play</button>
+			</div>
 			<script>
-				function playWhistle(){
-					const audio = document.getElementById("whistle");
-					audio.currentTime=0;
-					audio.play();
+				let mediaRecorder;
+				let audioChunks = [];
+				let audioBlob;
+				let audioUrl;
+				let audio;
+				 
+				navigator.mediaDevices.getUserMedia({ audio: true })
+				  .then(stream => {
+				    mediaRecorder = new MediaRecorder(stream);
+				 
+				    mediaRecorder.ondataavailable = event => {
+				      audioChunks.push(event.data);
+				    };
+				 
+				    mediaRecorder.onstop = () => {
+				      audioBlob = new Blob(audioChunks, { type: 'audio/mp3' });
+				      audioUrl = URL.createObjectURL(audioBlob);
+				      audio = new Audio(audioUrl);
+				    };
+				 
+				    document.getElementById('Record').onclick = () => {
+				      audioChunks = [];
+				      mediaRecorder.start();
+				    };
+				 
+				    document.getElementById('Pause').onclick = () => {
+				      mediaRecorder.stop();
+				    };
+				 
+				    document.getElementById('Play').onclick = () => {
+				      if (audio) audio.play();
+				    };
+				  });
+				  
+				document.getElementById('recordASound').addEventListener('click', () =>{
+					document.getElementById('controls').style.display='block';
+				})
+			</script>
+		
+		
+			
+		
+			
+		
+		
+		
+			<button style="float: right;"
+			class='button-primary' id="petLogout" onclick="petLogout()"> Dog Logout</button>
+			<script>
+				function petLogout(){
+					const dogName = localStorage.getItem("dogName");
+					
+					fetch('https://dogvideocall-latest.onrender.com/api/v1/users/logout/dog',{
+					//	fetch('http://localhost:8085/api/v1/users/logout/dog',{
+								method: 'POST',
+								headers: {
+									'Content-Type' : 'application/json'
+								},
+								body: JSON.stringify(dogName)
+							}).then(response => {
+								
+								if(!response.ok){
+									alert('Error in Logging out');
+									throw new Error('Logging out failed');
+									
+								}
+								window.close();
+								return response.json();
+							}).catch(error => {
+								console.error('POST request error',error)
+							});
+						
+					
+					
+					
 				}
 			</script>
-		</div>
+		
 	</div>
 	
     <div id="root"></div>
@@ -46,17 +140,35 @@ window.onload = function () {
         // @param 3: Room ID
         // @param 4: User ID
         // @param 5: Username
-
-    const roomID = getUrlParams(window.location.href)['roomID'] || (Math.floor(Math.random() * 10000) + "");
-    const userID = Math.floor(Math.random() * 10000) + "";
-	localStorage.setItem('roomId',roomID);
+		
 	const userName = localStorage.getItem('ownerName');
+	let roomID = '';
+	//let userID = '';
+	
+	if(userName=='Participant1'){
+		roomID= "1234";
+		//userID=  "12340";
+	}
+	else if(userName=='Participant2'){
+		roomID= "2345";
+		//userID= "23450";
+	}
+	else{
+		roomID= "3456";
+		//userID= "34560";
+	}
+
+    //const roomID = getUrlParams(window.location.href)['roomID'] || (Math.floor(Math.random() * 10000) + "");
+	
+   const userID = Math.floor(Math.random() * 10000) + "";
+	localStorage.setItem('roomId',roomID);
+	
     //const userName =getUrlParams(window.location.href)['ownerName'] || "userName" + userID;
     const appID = 2013589740;
     const serverSecret = "6bf86b3fc94765d6215df82152d4951c";
     const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, userID, userName);
 	
-	console.log(roomID);
+	console.log(typeof roomID);
 	console.log(userID);
 	console.log(userName);
 	console.log(kitToken);

@@ -57,6 +57,13 @@ public class Controllers {
 		service.Logout(user);
 	}
 	
+	@PostMapping("/logout/dog")
+	public void Logout(@RequestBody String dogName) {
+		
+		System.out.println("Logging out your pet!");
+		service.dogLogout(dogName);
+	}
+	
 	@GetMapping("/viewAll")
 	public List<Users> findAll(){
 		service.createUsers();

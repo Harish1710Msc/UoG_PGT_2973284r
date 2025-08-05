@@ -1,5 +1,6 @@
 function dogRegister(){
 	const dogName = document.getElementById("dogName").value;
+	localStorage.setItem("dogName" ,dogName);
 	const ownerName = localStorage.getItem("ownerName");
 	const dogPassword = document.getElementById("dogPassword").value;
 	
@@ -13,7 +14,9 @@ function dogRegister(){
 		
 	};
 	console.log(JSON.stringify(dog))
-	fetch('http://localhost:8085/api/v1/users/registerYourDog',{
+	
+	fetch('https://dogvideocall-latest.onrender.com/api/v1/users/registerYourDog',{
+	//fetch('http://localhost:8085/api/v1/users/registerYourDog',{
 			method: 'POST',
 			headers: {
 				'Content-Type' : 'application/json'
@@ -26,6 +29,8 @@ function dogRegister(){
 				throw new Error('Registration failed');
 				
 			}
+			alert('Registration success! Going back to home!')
+			window.location.href = './Homepage.html'
 			return response.json();
 		}).catch(error => {
 			console.error('POST request error',error)

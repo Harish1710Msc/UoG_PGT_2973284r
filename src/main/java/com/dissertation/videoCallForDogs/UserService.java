@@ -7,19 +7,39 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
+	
 
 	private List<Users> UserList = new ArrayList<>();
-	private List<Dog> dogList = new ArrayList();
+	private List<Dog> dogList = new ArrayList<>();
 
 	public List<Users> createUsers() {
 		List<Users> newList = new ArrayList<>();
 		Users owner = new Users();
-		owner.setName("Harish");
+		owner.setName("Participant1");
 		owner.setPassword("1234");
 		owner.setIsOwner(true);
 		owner.setIsPet(false);
 		userRegister(owner);
 		newList.add(owner);
+		
+		
+		Users owner1 = new Users();
+		owner1.setName("Participant2");
+		owner1.setPassword("1234");
+		owner1.setIsOwner(true);
+		owner1.setIsPet(false);
+		userRegister(owner1);
+		newList.add(owner1);
+		
+		Users owner2 = new Users();
+		owner2.setName("Participant3");
+		owner2.setPassword("1234");
+		owner2.setIsOwner(true);
+		owner2.setIsPet(false);
+		userRegister(owner2);
+		newList.add(owner2);
+		
+		
 		return newList;
 
 	}
@@ -38,12 +58,10 @@ public class UserService {
 				user.setStatus("Online");
 				System.out.println("User" + user.getName() + "is logged in!");
 				return user;
-			} else {
-				throw new Exception("Wrong credentials supplied!");
-			}
+			}  
 		}
 
-		return null;
+		throw new Exception("Wrong credentials");
 
 	}
 
@@ -53,6 +71,7 @@ public class UserService {
 			if ((petDog.getDogName().equals(dog.getDogName()))
 					&& (petDog.getDogPassword().equalsIgnoreCase(dog.getDogPassword()))) {
 				petDog.setDogStatus("Online");
+				System.out.println("Your pet is logged online");
 				return petDog;
 			}
 		}
@@ -63,15 +82,19 @@ public class UserService {
 		for (Users users : UserList) {
 			if (users.getName().equals(user.getName())) {
 				user.setStatus("Offline");
-				user.setName("NAN");
+//				user.setName("NAN");
 			}
 		}
 	}
 	
 	public void dogLogout(String dogName) {
+		System.out.println(dogList.size());
 		for(Dog dog : dogList) {
-			if(dog.getDogName().equals(dogName)) {
+			System.out.println(dog.dogName + dogName);
+			
+			if(dogName.contains(dog.getDogName())) {
 				dog.setDogStatus("Offline");
+				System.out.println("Your dog is offline");
 			}
 		}
 	}
@@ -82,6 +105,7 @@ public class UserService {
 
 	public void registerDog(Dog dog) {
 		System.out.println("Registering the dog!");
+		dog.setDogStatus("Offline");
 		dogList.add(dog);
 		System.out.println(dogList.get(0).getDogName());
 

@@ -1,10 +1,14 @@
 package com.dissertation.videoCallForDogs;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Users {
 	
 	private String name;
@@ -12,11 +16,9 @@ public class Users {
 	private Boolean isPet;
 	private Boolean isOwner;
 	private String status; 
-	private String Dog;
+	
 
 	
-	
-	//
 	public String getName() {
 		return name;
 	}

@@ -10,7 +10,10 @@ function handleLogin(event){
 		password:password
 	};
 	
-	fetch('http://localhost:8085/api/v1/users/login',{
+	
+	fetch('https://dogvideocall-latest.onrender.com/api/v1/users/login',{
+
+	//fetch('http://localhost:8085/api/v1/users/login',{
 		method: 'POST',
 		headers: {
 			'Content-Type' : 'application/json'
@@ -26,7 +29,7 @@ function handleLogin(event){
 		return response.json();
 	}). then((response) => {
 		localStorage.setItem('connectedUser', JSON.stringify(response));
-		window.location.href = 'index.html'
+		window.location.href = 'Homepage.html'
 	}).catch(error => {
 		console.error('POST request error',error)
 	});
