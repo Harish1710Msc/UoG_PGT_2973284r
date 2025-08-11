@@ -9,10 +9,22 @@
             height: 100vh;
             }
     </style>
+	<script src = "https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
 </head>
 
 
 <body>
+	
+	<div>
+		<button id="socketTest">Play Whistle sound</button>
+		
+	</div>
+	<div>
+		<button id="birdTest">Play Bird Sound</button>
+	
+	</div>
+	<script src="./videocall.js"></script>
+	
 	<audio id="whistle" src="whistle1.mp3"></audio>
 				<button onclick="playWhistle()"> Play Whistle Sound</button>
 				
@@ -93,8 +105,8 @@
 				function petLogout(){
 					const dogName = localStorage.getItem("dogName");
 					
-					fetch('https://dogvideocall-latest.onrender.com/api/v1/users/logout/dog',{
-					//	fetch('http://localhost:8085/api/v1/users/logout/dog',{
+			fetch('https://dogvideocall-latest.onrender.com/api/v1/users/logout/dog',{
+					//fetch('http://localhost:8085/api/v1/users/logout/dog',{
 								method: 'POST',
 								headers: {
 									'Content-Type' : 'application/json'
@@ -168,7 +180,7 @@ window.onload = function () {
     const serverSecret = "6bf86b3fc94765d6215df82152d4951c";
     const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, userID, userName);
 	
-	console.log(typeof roomID);
+	console.log(roomID);
 	console.log(userID);
 	console.log(userName);
 	console.log(kitToken);
